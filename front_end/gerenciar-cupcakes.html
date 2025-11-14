@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Cupcakes</title>
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body style="background-color: #fce7f3;">
+    <div class="container" style="max-width: 800px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        
+        <h1 style="color: #db2777;">Gerenciamento de Cupcakes</h1>
+        
+        <p><a href="admin-dashboard.html" style="color: #ec4899; text-decoration: none;">&larr; Voltar para o Dashboard</a></p>
+
+        <div id="server-message" style="margin: 20px 0; font-weight: bold; text-align: center;"></div>
+        
+        <h2 style="color: #db2777; margin-top: 30px;">Criar Novo Cupcake</h2>
+        <form id="form-criar-cupcake" style="display: flex; gap: 10px; margin-bottom: 40px;">
+            <input type="text" id="input-nome" placeholder="Nome do Cupcake" required style="flex-grow: 2;">
+            <input type="text" id="input-descricao" placeholder="Descrição (Opcional)" style="flex-grow: 3;">
+            <input type="number" id="input-preco" step="0.01" placeholder="Preço (ex: 5.50)" required style="flex-grow: 1;">
+            <button type="submit" style="background-color: #ec4899; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Salvar Novo Cupcake</button>
+        </form>
+        <h2 style="color: #db2777;">Cupcakes Existentes</h2>
+        <div id="cupcakes-list" style="margin-top: 20px;">
+            Carregando lista...
+        </div>
+
+    </div>
+    
+    <script src="script-gerenciar-cupcakes.js"></script>
+</body>
+</html>

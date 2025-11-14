@@ -1,0 +1,102 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  background: #fff0f5; /* Light Pink */
+  color: #444;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  text-align: left;
+}
+
+header {
+  border-bottom: 2px solid #ffb6c1; /* Light Pink Border */
+  padding-bottom: 10px;
+}
+
+h1 {
+  color: #ff69b4; /* Hot Pink */
+}
+
+h2 {
+  color: #ff1493; /* Deep Pink */
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* Estilo dos Botões */
+.btn {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  transition: background-color 0.2s;
+}
+
+.btn.primary {
+  background: #ff69b4;
+  color: white;
+}
+.btn.primary:hover {
+  background: #ff1493;
+}
+
+.btn.secondary {
+  background: #f0f0f0;
+  color: #ff69b4;
+  border: 1px solid #ff69b4;
+}
+.btn.secondary:hover {
+  background: #ffe4e1; /* Misty Rose */
+}
+
+/* Layout do Cardápio */
+.cardapio-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.cupcake-card {
+  background: white;
+  border: 1px solid #ffb6c1;
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px; /* Largura fixa para os cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.cupcake-card h3 {
+  color: #ff1493;
+  margin-top: 0;
+}
+
+.cupcake-card .preco {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #38a169; /* Verde para o preço */
+  margin: 10px 0;
+}
+
+/* Mensagens */
+#loading-message, #message-area {
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #e53e3e;
+}

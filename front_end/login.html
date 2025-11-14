@@ -2,31 +2,47 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Acesso ao Cupcake App</title>
-    <link rel="stylesheet" href="stile.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Delight - Login</title>
+    <!-- Use o seu estilo personalizado -->
+    <link rel="stylesheet" href="stile.css"> 
 </head>
-<body>
-    <div class="container main-login">
-        <h1>Bem-vindo(a)</h1>
+<body style="background-color: #fce7f3; display: grid; place-items: center; min-height: 100vh; font-family: sans-serif;">
 
+    <div class="container" style="max-width: 400px; width: 100%; background-color: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+        
+        <h1 style="color: #db2777; text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;">Acesso de Clientes/Admin</h1>
+        
+        <!-- Seu FORM com o ID 'form-login-cliente' -->
         <form id="form-login-cliente">
-            <input id="login-email" type="email" placeholder="E-mail do Cliente" required>
+            <div style="margin-bottom: 1rem;">
+                <label for="login-email" style="display: block; margin-bottom: 0.5rem; color: #555;">Email:</label>
+                <input type="email" id="login-email" placeholder="Seu email" required 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
             
-            <input id="login-senha" type="password" placeholder="Senha do Cliente" required>
-            
-            <button type="submit" class="btn primary">Entrar</button>
+            <div style="margin-bottom: 1.5rem;">
+                <label for="login-senha" style="display: block; margin-bottom: 0.5rem; color: #555;">Senha:</label>
+                <input type="password" id="login-senha" placeholder="Sua senha" required
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+
+            <button type="submit" 
+                    style="width: 100%; padding: 0.8rem; background-color: #ec4899; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold;">
+                Entrar na Conta
+            </button>
         </form>
 
-        <div class="options">
-            <p>Novo por aqui? 
-                <a href="cadastro-cliente.html">Crie sua Conta</a>
-            </p>
-            <hr>
-            <p>Acesso Restrito:
-                <a href="login-admin.html">Entrar como Administrador</a>
-            </p>
-        </div>
+        <!-- Área para mensagens de erro ou sucesso -->
+        <div id="message-area" style="text-align: center; margin-top: 1rem; font-weight: bold;"></div>
+        
+        <p style="text-align: center; margin-top: 1.5rem; color: #555;">
+            Novo por aqui? 
+            <a href="cadastro.html" style="color: #db2777; text-decoration: none;">Crie sua Conta</a>
+        </p>
     </div>
-    <script src="script-login.js"></script>
+    
+    <!-- Chamada do Script corrigido da resposta anterior -->
+    <script src="script-login.js"></script> 
 </body>
 </html>

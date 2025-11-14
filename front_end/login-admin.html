@@ -2,23 +2,29 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Acesso do Administrador</title>
+    <title>Login Administrativo</title>
     <link rel="stylesheet" href="stile.css">
 </head>
 <body>
-    <div class="container admin-login">
-        <h2>Acesso Administrativo</h2>
+    <div class="container main-login">
+        <h1>Acesso Restrito - Admin</h1>
 
         <form id="form-login-admin">
-            <input type="email" placeholder="E-mail do Administrador" required>
-            <input type="password" placeholder="Senha" required>
-            <button type="submit" class="btn primary">Entrar</button>
+            
+            <input id="admin-email" type="email" placeholder="E-mail do Administrador" required>
+            
+            <input id="admin-senha" type="password" placeholder="Senha" required>
+            
+            <button type="submit" class="btn primary">Entrar como Admin</button>
         </form>
+        
+        <div id="message-area-admin" style="margin-top: 15px;"></div> 
 
-        <div class="options">
-            <a href="login.html">Voltar ao Login de Cliente</a>
-            <p><a href="cadastro-admin.html">Cadastrar Novo Administrador</a></p>
+        <div class="options" style="margin-top: 20px;">
+            <p><a href="login.html">← Voltar para o Login do Cliente</a></p>
         </div>
     </div>
+    
+    <script src="script-login-admin.js"></script>
 </body>
 </html>

@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Loja de Cupcakes</title>
-  <link rel="stylesheet" href="estilo.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Delight - A Loja</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-  <h1>Bem-vindo à Cupcake Store 🍰</h1>
-  <button onclick="alert('Cupcake adicionado ao carrinho!')">Adicionar Cupcake</button>
-  <script src="script.js"></script>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1>🧁 Cupcake Delight</h1>
+            <nav>
+                <a href="login.html" class="btn secondary">Login / Cadastro</a>
+                <a href="admin-dashboard.html" class="btn secondary">Admin</a>
+                <a href="carrinho.html" class="btn primary">Carrinho</a>
+            </nav>
+        </header>
+
+        <div id="message-area" style="margin: 20px 0; font-weight: bold;"></div>
+
+        <h2>Nosso Cardápio</h2>
+        
+        <div id="loading-message" style="margin: 20px 0; font-style: italic;">
+            Carregando cardápio...
+        </div>
+
+        <div id="cardapio-publico" class="cardapio-grid">
+        </div>
+    </div>
+    
+    <script src="script-index.js"></script>
 </body>
 </html>
