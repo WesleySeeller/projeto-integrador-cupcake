@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cupcake Delight - Carrinho</title>
-        <link rel="stylesheet" href="stile.css"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Delight - Carrinho</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-    <div class="container">
-                <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h1>🧁 Cupcake Delight</h1>
-            <nav>
-                <a href="index.html" class="btn secondary">Voltar ao Cardápio</a>
-                <a href="login.html" class="btn secondary">Login / Cadastro</a>
-            </nav>
-        </header>
+    <div class="container">
+        <header>
+            <h1>🛒 Seu Carrinho</h1>
+            <nav>
+                <a href="index.html" class="btn secondary">Voltar ao Cardápio</a>
+            </nav>
+        </header>
 
-        <h2>Seu Carrinho de Compras</h2>
-        
-                <div id="carrinho-itens" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <p>Carregando carrinho...</p>
-        </div>
+        <h2>Itens do Carrinho</h2>
 
-                <div style="text-align: right; margin-bottom: 30px;">
-            <p style="font-size: 1.2rem; font-weight: bold; color: #db2777;">
-                                Total: <span id="carrinho-total">R$0,00</span>
-            </p>
-        </div>
+        <div id="cart-items-container"> 
+            <p>Carregando carrinho...</p> 
+        </div>
 
-                <button id="checkout-button" disabled
-            style="width: 100%; padding: 15px; font-size: 1.1rem; font-weight: bold; background-color: #ec4899; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.2s;"
-            onmouseover="this.style.backgroundColor='#d946ef'"
-            onmouseout="this.style.backgroundColor='#ec4899'">
-            Finalizar Pedido (Checkout)
-        </button>
+        <hr style="margin: 20px 0;">
 
-        <p style="text-align: center; margin-top: 15px;">
-            <a href="#" onclick="limparCarrinho()" style="color: #ef4444; text-decoration: underline;">Esvaziar Carrinho</a>
-        </p>
-        
-    </div>
-    
-        <script src="script-carrinho.js"></script>
+        <div style="display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">
+            <span>Total:</span>
+            <span id="cart-total">R$ 0,00</span> 
+        </div>
+
+        <div style="display: flex; justify-content: space-between; gap: 10px;">
+            <button id="checkout-button" class="btn primary" disabled>Finalizar Compra</button>
+            <button onclick="limparCarrinho()" class="btn secondary">Esvaziar Carrinho</button> 
+        </div>
+    </div>
+    
+    <script src="script-carrinho.js"></script> 
 </body>
 </html>
