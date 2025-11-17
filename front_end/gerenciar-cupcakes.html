@@ -4,6 +4,59 @@
     <meta charset="UTF-8">
     <title>Gerenciamento de Cupcakes</title>
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%; 
+            max-width: 500px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .modal-content h2 {
+            color: #db2777;
+            margin-top: 0;
+        }
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .modal-form input, .modal-form select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal-form .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-form label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body style="background-color: #fce7f3;">
     <div class="container" style="max-width: 800px; margin: 50px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
@@ -12,6 +65,7 @@
         
         <p><a href="admin-dashboard.html" style="color: #ec4899; text-decoration: none;">&larr; Voltar para o Dashboard</a></p>
 
+        <!-- Div de mensagem para confirmação de exclusão e erros -->
         <div id="server-message" style="margin: 20px 0; font-weight: bold; text-align: center;"></div>
         
         <h2 style="color: #db2777; margin-top: 30px;">Criar Novo Cupcake</h2>
@@ -25,7 +79,44 @@
         <div id="cupcakes-list" style="margin-top: 20px;">
             Carregando lista...
         </div>
-
+    </div>
+    
+    <!-- HTML do Modal de Edição (escondido) -->
+    <div id="modal-edicao" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-titulo">Editar Cupcake</h2>
+            <form id="form-edicao" class="modal-form">
+                <input type="hidden" id="edit-id">
+                
+                <div class="form-group">
+                    <label for="edit-nome">Nome:</label>
+                    <input type="text" id="edit-nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-descricao">Descrição:</label>
+                    <input type="text" id="edit-descricao">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-preco">Preço:</label>
+                    <input type="number" id="edit-preco" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-disponivel">Disponibilidade:</label>
+                    <select id="edit-disponivel">
+                        <option value="1">Disponível</option>
+                        <option value="0">Indisponível</option>
+                    </select>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" id="btn-cancelar" class="btn secondary">Cancelar</button>
+                    <button type="submit" class="btn primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
     </div>
     
     <script src="script-gerenciar-cupcakes.js"></script>
