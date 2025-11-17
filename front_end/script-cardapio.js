@@ -1,15 +1,10 @@
-// URL BASE DO SEU BACK-END FLASK
-// Usamos a URL completa para evitar ambiguidades com o Live Server
+
 const API_URL = 'http://127.0.0.1:5000/api'; 
 
-// Elementos da DOM
 const cardapioDiv = document.getElementById('cardapio-publico');
 const loadingMessage = document.getElementById('loading-message');
-const messageArea = document.getElementById('message-area'); // Adicionado para mensagens temporárias
+const messageArea = document.getElementById('message-area'); 
 
-// =========================================================
-// 1. FUNÇÕES DO CARRINHO (Front-End - LocalStorage)
-// =========================================================
 
 /**
  * Carrega o carrinho do localStorage.
@@ -40,7 +35,7 @@ function salvarCarrinho(carrinho) {
  */
 function adicionarAoCarrinho(nome, preco) {
     const carrinho = carregarCarrinho();
-    const precoFormatado = parseFloat(preco); // Garantir que o preço é um número
+    const precoFormatado = parseFloat(preco); 
 
     let itemExistente = carrinho.find(item => item.nome === nome);
 
@@ -58,7 +53,6 @@ function adicionarAoCarrinho(nome, preco) {
     exibirMensagem(`"${nome}" adicionado ao carrinho! Total: ${carrinho.length} itens.`);
     console.log("Carrinho Atualizado:", carrinho);
 
-    // TODO: Atualizar o ícone do carrinho se houver um na tela
 }
 
 /**
@@ -69,7 +63,7 @@ let messageTimeout;
 function exibirMensagem(msg) {
     if (messageArea) {
         messageArea.textContent = msg;
-        messageArea.style.backgroundColor = '#d1e7dd'; // Estilo verde claro
+        messageArea.style.backgroundColor = '#d1e7dd'; 
         messageArea.style.padding = '10px';
         messageArea.style.borderRadius = '5px';
         
@@ -78,25 +72,22 @@ function exibirMensagem(msg) {
             messageArea.textContent = '';
             messageArea.style.padding = '0';
             messageArea.style.backgroundColor = 'transparent';
-        }, 3000); // Remove a mensagem após 3 segundos
+        }, 3000); 
     }
 }
 
 
-// =========================================================
-// 2. FUNÇÃO DE CARREGAMENTO DO CARDÁPIO (Mantida)
-// =========================================================
+
 
 // Função principal para carregar o cardápio
 async function carregarCardapio() {
     if (loadingMessage) {
         loadingMessage.textContent = 'Carregando cardápio...';
-        loadingMessage.style.color = '#4b5563'; // Cor cinza padrão
+        loadingMessage.style.color = '#4b5563'; 
         loadingMessage.style.display = 'block';
     }
 
     try {
-        // A URL que comprovadamente funciona e retorna os dados
         const response = await fetch(`http://127.0.0.1:5000/api/cupcakes/publico`);
 
         if (!response.ok) {
@@ -107,12 +98,11 @@ async function carregarCardapio() {
 
         const cupcakes = await response.json();
 
-        // Limpar o carregamento/erro e exibir os cupcakes
         if (loadingMessage) {
             loadingMessage.style.display = 'none';
         }
         
-        cardapioDiv.innerHTML = ''; // Limpa o container
+        cardapioDiv.innerHTML = ''; 
 
         if (cupcakes.length === 0) {
             cardapioDiv.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 32px;">Nenhum cupcake disponível no momento. Volte mais tarde!</p>';
@@ -148,7 +138,7 @@ async function carregarCardapio() {
         
         if (loadingMessage) {
             loadingMessage.textContent = `Erro: ${error.message}. Recarregue a página ou verifique o servidor Flask.`;
-            loadingMessage.style.color = '#ef4444'; // Cor de erro
+            loadingMessage.style.color = '#ef4444'; 
             loadingMessage.style.display = 'block';
         }
         
@@ -156,5 +146,4 @@ async function carregarCardapio() {
     }
 }
 
-// Inicia o carregamento quando o script é executado
 document.addEventListener('DOMContentLoaded', carregarCardapio);

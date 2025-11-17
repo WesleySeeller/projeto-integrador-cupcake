@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cupcake Delight - Carrinho</title>
     <link rel="stylesheet" href="style.css"> 
+    <style>
+        .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { color: #ff69b4; }
+        
+        #cart-items-container div { border-bottom: 1px dashed #ffb6c1; }
+        #cart-items-container div:last-child { border-bottom: none; }
+        
+        #message-area { 
+            margin-bottom: 20px; 
+            padding: 10px; 
+            border-radius: 4px; 
+            display: none; 
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,6 +30,8 @@
                 <a href="index.html" class="btn secondary">Voltar ao Cardápio</a>
             </nav>
         </header>
+
+        <div id="message-area"></div>
 
         <h2>Itens do Carrinho</h2>
 
@@ -30,7 +48,7 @@
 
         <div style="display: flex; justify-content: space-between; gap: 10px;">
             <button id="checkout-button" class="btn primary" disabled>Finalizar Compra</button>
-            <button onclick="limparCarrinho()" class="btn secondary">Esvaziar Carrinho</button> 
+            <button id="limpar-carrinho-button" class="btn secondary">Esvaziar Carrinho</button> 
         </div>
     </div>
     

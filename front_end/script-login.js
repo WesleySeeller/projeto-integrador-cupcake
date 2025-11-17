@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Seu HTML tem o ID 'form-login-cliente', então usaremos ele
     const loginForm = document.getElementById('form-login-cliente');
     const emailInput = document.getElementById('login-email');
     const senhaInput = document.getElementById('login-senha');
@@ -17,17 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailInput.value;
         const senha = senhaInput.value;
         
+        const roleElement = document.querySelector('input[name="role"]:checked');
+        const role = roleElement ? roleElement.value : 'cliente'; 
+        
         messageArea.textContent = 'Autenticando...';
-        messageArea.style.color = 'blue';
+        messageArea.style.color = '#3b82f6'; 
 
         const dadosLogin = {
             email: email,
-            senha: senha
+            senha: senha,
+            role: role 
         };
 
         try {
-            // --- 1. Fazer a chamada (fetch) para a API ---
-            // APONTA PARA A NOVA ROTA UNIFICADA /api/login
             const response = await fetch('http://127.0.0.1:5000/api/login', {
                 method: 'POST',
                 headers: {
@@ -38,30 +39,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
-            // --- 2. Tratar a Resposta ---
-            if (response.ok) { // Status 200 (OK)
-                messageArea.textContent = data.message;
-                messageArea.style.color = 'green';
+            if (response.ok) { 
+                messageArea.textContent = 'Login realizado com sucesso! Redirecionando...';
+                messageArea.style.color = '#22c55e'; 
 
-                // --- 3. ARMAZENAMENTO DO TOKEN E PAPEL (CRUCIAL) ---
-                localStorage.setItem('jwt_token', data.token);
-                localStorage.setItem('user_role', data.papel); // 'cliente' ou 'admin'
                 
-                // --- 4. Redirecionamento baseado no Papel ---
+                localStorage.setItem('jwt_token', data.token); 
+                localStorage.setItem('user_role', data.role); 
+                
+               
                 setTimeout(() => {
-                    if (data.papel === 'admin') {
-                        // Redireciona para o painel administrativo (próximo passo)
+                    if (data.role === 'admin') {
                         window.location.href = 'admin-dashboard.html'; 
                     } else {
-                        // Redireciona para a página inicial do cliente
                         window.location.href = 'index.html'; 
                     }
                 }, 1000);
                 
-            } else { // Status 401 (Unauthorized)
+            } else { 
                 messageArea.textContent = `Erro de Login: ${data.message}`;
-                messageArea.style.color = 'red';
-                // Limpa quaisquer tokens antigos em caso de falha de login
+                messageArea.style.color = '#ef4444'; 
                 localStorage.removeItem('jwt_token');
                 localStorage.removeItem('user_role');
             }
@@ -69,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Falha na requisição de login:', error);
             messageArea.textContent = 'Erro de conexão. Verifique se o servidor Flask está rodando.';
-            messageArea.style.color = 'red';
+            messageArea.style.color = '#ef4444'; 
         }
     });
 });

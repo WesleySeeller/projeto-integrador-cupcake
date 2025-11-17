@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Delight - Meu Endereço</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script-auth.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Endereço de Entrega</h1>
+            <nav>
+                <a href="meus-pedidos.html" class="btn secondary">Voltar para Meus Pedidos</a>
+            </nav>
+        </header>
+
+        <div id="message-area" class="message-area"></div>
+
+        <div class="card">
+            <h2>Meu Endereço</h2>
+            <form id="endereco-form">
+                <div class="form-group">
+                    <label for="cep">CEP:</label>
+                    <input type="text" id="cep" name="cep" required>
+                </div>
+                <div class="form-group">
+                    <label for="rua">Rua:</label>
+                    <input type="text" id="rua" name="rua" required>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="numero">Número:</label>
+                        <input type="text" id="numero" name="numero" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="complemento">Complemento (Opcional):</label>
+                        <input type="text" id="complemento" name="complemento">
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" id="bairro" name="bairro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" id="cidade" name="cidade" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado (UF):</label>
+                    <input type="text" id="estado" name="estado" required maxlength="2">
+                </div>
+                
+                <button type="submit" class="btn primary">Salvar Endereço</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            verificarLogin('cliente'); 
+        });
+    </script>
+    
+    <script src="script-endereco.js"></script>
+</body>
+</html>

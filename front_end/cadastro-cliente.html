@@ -1,50 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cupcake Delight - Cadastro</title>
-    <link rel="stylesheet" href="stile.css"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcake Delight - Cadastro</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body style="background-color: #fce7f3; display: grid; place-items: center; min-height: 100vh; font-family: sans-serif;">
 
-    <div class="container" style="max-width: 400px; width: 100%; background-color: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-        
-        <h1 style="color: #db2777; text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;">Crie sua Conta</h1>
-        
-        <form id="cadastro-form">
+    <div class="container" style="max-width: 400px; width: 100%; background-color: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+        
+        <h1 style="color: #db2777; text-align: center; font-size: 1.8rem; margin-bottom: 1.5rem;">Crie sua Conta</h1>
+        
+        <form id="cadastro-form">
             <div style="margin-bottom: 1rem;">
-                <label for="cadastro-email" style="display: block; margin-bottom: 0.5rem; color: #555;">Email:</label>
-                <input type="email" id="cadastro-email" required 
-                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
+                <label for="cadastro-nome" style="display: block; margin-bottom: 0.5rem; color: #555;">Nome Completo:</label>
+                <input type="text" id="cadastro-nome" required 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
             
-            <div style="margin-bottom: 1rem;">
-                <label for="cadastro-senha" style="display: block; margin-bottom: 0.5rem; color: #555;">Senha:</label>
-                <input type="password" id="cadastro-senha" required minlength="6"
-                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
+            <div style="margin-bottom: 1rem;">
+                <label for="cadastro-email" style="display: block; margin-bottom: 0.5rem; color: #555;">Email:</label>
+                <input type="email" id="cadastro-email" required 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label for="cadastro-senha" style="display: block; margin-bottom: 0.5rem; color: #555;">Senha:</label>
+                <input type="password" id="cadastro-senha" required minlength="6"
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
 
-            <div style="margin-bottom: 1.5rem;">
-                <label for="cadastro-confirmar-senha" style="display: block; margin-bottom: 0.5rem; color: #555;">Confirmar Senha:</label>
-                <input type="password" id="cadastro-confirmar-senha" required minlength="6"
-                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
-            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label for="cadastro-confirmar-senha" style="display: block; margin-bottom: 0.5rem; color: #555;">Confirmar Senha:</label>
+                <input type="password" id="cadastro-confirmar-senha" required minlength="6"
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px;">
+            </div>
 
-            <button type="submit" 
-                    style="width: 100%; padding: 0.8rem; background-color: #ec4899; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold;">
-                Registrar
-            </button>
-        </form>
+            <button type="submit" 
+                    style="width: 100%; padding: 0.8rem; background-color: #ec4899; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold;">
+                Registrar
+            </button>
+        </form>
 
-        <!-- Área para mensagens de erro ou sucesso -->
-        <div id="message-area" style="text-align: center; margin-top: 1rem; font-weight: bold;"></div>
-        
-        <p style="text-align: center; margin-top: 1.5rem; color: #555;">
-            Já tem uma conta? <a href="login.html" style="color: #db2777; text-decoration: none;">Faça o login</a>
-        </p>
-    </div>
-    
-    <script src="script-cadastro.js"></script>
+        <div id="message-area" style="text-align: center; margin-top: 1rem; font-weight: bold;"></div>
+        
+        <p style="text-align: center; margin-top: 1.5rem; color: #555;">
+            Já tem uma conta? <a href="login.html" style="color: #db2777; text-decoration: none;">Faça o login</a>
+        </p>
+    </div>
+    
+    <script src="script-cadastro.js"></script>
 </body>
 </html>

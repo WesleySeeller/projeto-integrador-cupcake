@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Pedidos - Cupcake Delights Admin</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        .container { max-width: 1200px; margin: 30px auto; padding: 20px; }
+        h1 { color: #ff69b4; border-bottom: 2px solid #ffb6c1; padding-bottom: 10px; }
+        a.voltar { display: inline-block; margin-bottom: 20px; color: #ff69b4; text-decoration: none; font-weight: bold; }
+        
+        .pedido-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .pedido-table th, .pedido-table td { border: 1px solid #ffc0cb; padding: 12px; text-align: left; }
+        .pedido-table th { background-color: #ffc0cb; color: #880044; }
+        .pedido-table tr:nth-child(even) { background-color: #fff0f5; }
+
+        .status-pendente { color: orange; font-weight: bold; }
+        .status-em-preparacao { color: blue; font-weight: bold; }
+        .status-a-caminho { color: #800080; font-weight: bold; }
+        .status-entregue { color: green; font-weight: bold; }
+        .status-cancelado { color: red; font-weight: bold; }
+        
+        .pedido-detail { margin-top: 20px; padding: 15px; border: 1px solid #ffb6c1; border-radius: 5px; background-color: #fffaf0; }
+        .pedido-detail h3 { color: #ff69b4; }
+        
+        button { background-color: #ff69b4; color: white; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s; }
+        button:hover { background-color: #ff1493; }
+        select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
+        
+        #message { margin-bottom: 20px; padding: 10px; border-radius: 4px; display: none; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="admin-dashboard.html" class="voltar">← Voltar ao Dashboard</a>
+        
+        <h1>Acompanhar Pedidos de Clientes</h1>
+        
+        <div id="message"></div>
+
+        <table class="pedido-table">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Valor Total</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="pedidos-list">
+            </tbody>
+        </table>
+        
+        <div id="pedido-details-area">
+        </div>
+    </div> 
+
+    <script>
+        const API_URL = 'http://127.0.0.1:5000/api'; 
+        const token = localStorage.getItem('jwt_token'); 
+        const role = localStorage.getItem('user_role');
+        const messageDiv = document.getElementById('message');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!token || role !== 'admin') {
+                alert("Acesso não autorizado ou sessão expirada.");
+                window.location.href = 'login.html'; 
+                return;
+            }
+            loadPedidos();
+        });
+
+        function showMessage(msg, type = 'success') {
+            messageDiv.textContent = msg;
+            messageDiv.style.backgroundColor = type === 'success' ? '#e0ffe0' : '#ffe0e0';
+            messageDiv.style.color = type === 'success' ? 'green' : 'red';
+            messageDiv.style.display = 'block';
+            setTimeout(() => { messageDiv.style.display = 'none'; }, 5000);
+        }
+
+        async function loadPedidos() {
+            document.getElementById('pedido-details-area').innerHTML = ''; 
+            const list = document.getElementById('pedidos-list');
+            list.innerHTML = '<tr><td colspan="6">Carregando pedidos...</td></tr>';
+            
+            try {
+                const response = await fetch(`${API_URL}/admin/pedidos`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                list.innerHTML = ''; 
+
+                if (response.ok && data.pedidos.length > 0) {
+                    data.pedidos.forEach(p => {
+                        const row = list.insertRow();
+                        row.insertCell().textContent = p.pedido_id;
+                        row.insertCell().textContent = p.nome_cliente; 
+                        row.insertCell().textContent = new Date(p.data_pedido).toLocaleDateString();
+                        row.insertCell().textContent = `R$ ${p.valor_total.toFixed(2).replace('.', ',')}`;
+                        
+                        const statusText = p.status.toUpperCase();
+                        const statusCell = row.insertCell();
+                        statusCell.textContent = statusText;
+                        statusCell.className = `status-${p.status.toLowerCase().replace(' ', '-')}`; 
+
+                        const actionsCell = row.insertCell();
+                        actionsCell.innerHTML = `
+                            <button onclick="showPedidoDetails(${p.pedido_id})">Ver Detalhes</button>
+                            <select onchange="updatePedidoStatus(${p.pedido_id}, this.value)">
+                                <option value="" disabled selected>Alterar Status</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="em preparacao">Em Preparação</option>
+                                <option value="a caminho">A Caminho</option>
+                                <option value="entregue">Entregue</option>
+                                <option value="cancelado">Cancelado</option>
+                            </select>
+                        `;
+                    });
+                } else if (response.ok) {
+                     list.innerHTML = '<tr><td colspan="6">Nenhum pedido encontrado.</td></tr>';
+                } else {
+                    showMessage(`Erro ao carregar pedidos: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                showMessage(`Erro de conexão ao buscar pedidos: ${error.message}. Verifique o servidor Flask.`, 'error');
+                list.innerHTML = '<tr><td colspan="6">Falha ao conectar.</td></tr>';
+            }
+        }
+        
+        async function updatePedidoStatus(pedidoId, novoStatus) {
+            if (!novoStatus) return;
+
+            try {
+                const response = await fetch(`${API_URL}/admin/pedidos/${pedidoId}/status`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status: novoStatus })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message);
+                    loadPedidos(); 
+                } else {
+                    showMessage(data.message || 'Erro ao atualizar status.', 'error');
+                }
+
+            } catch (error) {
+                showMessage('Erro de conexão com o servidor.', 'error');
+            }
+        }
+        
+        async function showPedidoDetails(pedidoId) {
+            document.getElementById('pedido-details-area').innerHTML = '<p style="text-align: center;">Buscando detalhes...</p>';
+            
+            try {
+                const response = await fetch(`${API_URL}/admin/pedidos/${pedidoId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const details = await response.json();
+                
+                if (response.ok) {
+                    let itensHtml = details.itens.map(item => `
+                        <li>${item.quantidade}x ${item.nome_cupcake} (R$ ${item.preco_unitario.toFixed(2).replace('.', ',')})</li>
+                    `).join('');
+
+                    document.getElementById('pedido-details-area').innerHTML = `
+                        <h3>Detalhes do Pedido #${pedidoId}</h3>
+                        <div class="pedido-detail">
+                            <p><strong>Status Atual:</strong> <span class="status-${details.status.toLowerCase().replace(' ', '-')}">${details.status.toUpperCase()}</span></p>
+                            <p><strong>Cliente:</strong> ${details.nome_cliente}</p>
+                            <p><strong>Email:</strong> ${details.email_cliente}</p>
+                            <p><strong>Endereço de Entrega:</strong> ${details.endereco}</p>
+                            <p><strong>Data do Pedido:</strong> ${new Date(details.data_pedido).toLocaleString()}</p>
+                            <p><strong>Valor Total:</strong> R$ ${details.valor_total.toFixed(2).replace('.', ',')}</p>
+                            
+                            <h4>Itens:</h4>
+                            <ul>${itensHtml}</ul>
+                        </div>
+                    `;
+                } else {
+                    showMessage(details.message || "Erro ao carregar detalhes do pedido. O back-end pode estar faltando a rota de detalhes.", 'error');
+                    document.getElementById('pedido-details-area').innerHTML = '';
+                }
+
+            } catch (error) {
+                showMessage('Erro de conexão ao buscar detalhes.', 'error');
+                document.getElementById('pedido-details-area').innerHTML = '';
+            }
+        }
+
+    </script>
+</body>
+</html>

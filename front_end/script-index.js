@@ -1,9 +1,29 @@
-// --- FUNÇÕES DE CARRINHO (Compartilhadas com carrinho.js) ---
+// --- CONFIGURAÇÃO ---
+const API_URL = 'http://127.0.0.1:5000/api';
+const messageArea = document.getElementById('message-area');
+
+
+function showMessage(msg, type = 'success') {
+    messageArea.textContent = msg;
+    messageArea.style.color = type === 'error' ? 'red' : (type === 'success' ? 'green' : 'blue');
+    messageArea.style.backgroundColor = type === 'error' ? '#ffe0e0' : (type === 'success' ? '#e0ffe0' : '#e0f0ff');
+    messageArea.style.padding = '10px';
+    messageArea.style.borderRadius = '5px';
+    messageArea.style.display = 'block';
+    
+    // Limpa a mensagem após 5 segundos
+    setTimeout(() => { messageArea.style.display = 'none'; }, 5000);
+}
+
+function formatarPreco(preco) {
+    if (typeof preco !== 'number') return 'R$ --';
+    return `R$ ${preco.toFixed(2).replace('.', ',')}`;
+}
+
 
 // Função para obter o carrinho do localStorage
 function getCarrinho() {
     const carrinhoJSON = localStorage.getItem('carrinhoCupcake');
-    // Retorna o carrinho como objeto ou um array vazio se não existir
     return carrinhoJSON ? JSON.parse(carrinhoJSON) : [];
 }
 
@@ -15,17 +35,23 @@ function salvarCarrinho(carrinho) {
 // Função para adicionar um item ao carrinho
 function adicionarAoCarrinho(cupcake) {
     const carrinho = getCarrinho();
-    const itemExistente = carrinho.find(item => item.id === cupcake.id);
+    const cupcakeId = parseInt(cupcake.id); 
+
+    const itemExistente = carrinho.find(item => item.id === cupcakeId);
 
     if (itemExistente) {
         itemExistente.quantidade += 1;
     } else {
-        // Garantir que a quantidade inicial é 1
-        carrinho.push({ ...cupcake, quantidade: 1 });
+        carrinho.push({ 
+            ...cupcake, 
+            id: cupcakeId,
+            quantidade: 1,
+            preco_unitario: cupcake.preco 
+        });
     }
 
     salvarCarrinho(carrinho);
-    alert(`${cupcake.nome} adicionado(a) ao carrinho!`);
+    showMessage(`${cupcake.nome} adicionado(a) ao carrinho!`, 'success');
 }
 
 
@@ -41,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         try {
             // Requisição para o Flask
-            const response = await fetch('http://127.0.0.1:5000/api/cupcakes/publico'); 
+            const response = await fetch(`${API_URL}/cupcakes/publico`); 
             
             if (!response.ok) {
                 throw new Error(`Erro do servidor: ${response.status}`);
@@ -65,24 +91,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('div');
                 card.className = 'cupcake-card';
                 
-                // CRIAÇÃO DO BOTÃO "ADICIONAR AO CARRINHO"
-                const buttonHtml = `<button class="btn primary add-to-cart" data-id="${cupcake.id}">Adicionar ao Carrinho</button>`;
+                const precoFormatado = formatarPreco(cupcake.preco);
+
+                const buttonHtml = `<button class="btn primary add-to-cart" data-cupcake-id="${cupcake.id}">Adicionar ao Carrinho</button>`;
 
                 card.innerHTML = `
                     <h3>${cupcake.nome}</h3>
                     <p>${cupcake.descricao}</p>
-                    <p class="preco">${cupcake.preco_formatado}</p>
+                    <p class="preco">${precoFormatado}</p>
                     ${buttonHtml}
                 `;
                 cardapioDiv.appendChild(card);
             });
 
-            // Adiciona listener de clique para todos os botões de carrinho
             document.querySelectorAll('.add-to-cart').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const cupcakeId = parseInt(e.target.dataset.id);
+                    const cupcakeId = parseInt(e.target.dataset.cupcakeId);
                     
-                    // Encontra o objeto cupcake completo a partir dos dados carregados
                     const cupcake = data.find(c => c.id === cupcakeId);
                     
                     if (cupcake) {
@@ -98,6 +123,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // CORREÇÃO: Chama a função apenas uma vez no DOMContentLoaded
     carregarCardapio();
 });

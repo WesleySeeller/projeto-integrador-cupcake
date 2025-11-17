@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos e Endereço - Cupcake Delights</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        .container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        h1 { color: #ff69b4; border-bottom: 2px solid #ffb6c1; padding-bottom: 10px; }
+        #message-area { margin-top: 15px; padding: 10px; border-radius: 4px; display: none; }
+        
+        .tab-menu { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ffc0cb; }
+        .tab-menu button { 
+            background: #eee; color: #880044; padding: 10px 15px; 
+            border: none; border-radius: 5px 5px 0 0; cursor: pointer; 
+            font-weight: bold;
+        }
+        .tab-menu button.active { 
+            background-color: #ff69b4; color: white;
+        }
+        .tab-content { 
+            border: 1px solid #ffb6c1; padding: 20px; 
+            border-top: none; border-radius: 0 0 5px 5px; 
+            background-color: #fffaf0; 
+        }
+
+        .pedido-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .pedido-table th, .pedido-table td { border: 1px solid #ffc0cb; padding: 10px; text-align: left; }
+        .pedido-table th { background-color: #ffc0cb; color: #880044; }
+        .pedido-table tr:nth-child(even) { background-color: #fff0f5; }
+        
+        .status-pendente { color: orange; font-weight: bold; }
+        .status-em-preparacao { color: blue; font-weight: bold; }
+        .status-a-caminho { color: #800080; font-weight: bold; }
+        .status-entregue { color: green; font-weight: bold; }
+        .status-cancelado { color: red; font-weight: bold; }
+        
+        #pedido-details-area { margin-top: 20px; }
+        
+        .endereco-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .endereco-form .form-group { display: flex; flex-direction: column; }
+        .endereco-form label { font-weight: bold; margin-bottom: 5px; color: #880044; }
+        .endereco-form input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .endereco-form button { grid-column: span 2; padding: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Minha Conta</h1>
+            <a href="index.html" class="btn secondary">Voltar à Loja</a>
+        </header>
+        
+        <div id="message-area"></div> <div class="tab-menu">
+            <button id="tab-pedidos" onclick="showTab('pedidos')">Meus Pedidos</button>
+            <button id="tab-endereco" onclick="showTab('endereco')">Endereço de Entrega</button>
+        </div>
+
+        <div id="pedidos-content" class="tab-content">
+            <h2>Pedidos Recentes</h2>
+            <table class="pedido-table">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>Data</th>
+                        <th>Valor Total</th>
+                        <th>Status</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody id="pedidos-list">
+                    </tbody>
+            </table>
+            <div id="pedido-details-area"></div>
+        </div>
+        
+        <div id="endereco-content" class="tab-content" style="display: none;">
+            <h2>Meu Endereço</h2>
+            <form id="endereco-form" class="endereco-form">
+                <div class="form-group" style="grid-column: span 2;"><label for="cep">CEP:</label><input type="text" id="cep" required></div>
+                <div class="form-group" style="grid-column: span 2;"><label for="rua">Rua:</label><input type="text" id="rua" required></div>
+                <div class="form-group"><label for="numero">Número:</label><input type="text" id="numero" required></div>
+                <div class="form-group"><label for="complemento">Complemento:</label><input type="text" id="complemento"></div>
+                <div class="form-group"><label for="bairro">Bairro:</label><input type="text" id="bairro" required></div>
+                <div class="form-group"><label for="cidade">Cidade:</label><input type="text" id="cidade" required></div>
+                <div class="form-group" style="grid-column: span 2;"><label for="estado">Estado (Ex: SP):</label><input type="text" id="estado" maxlength="2" required></div>
+                <button type="submit" class="btn primary">Salvar Endereço</button>
+            </form>
+        </div>
+    </div> 
+
+    <script src="script-perfil-cliente.js"></script>
+</body>
+</html>

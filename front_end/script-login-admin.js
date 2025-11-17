@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
             messageArea.textContent = "Verificando credenciais de Admin...";
             messageArea.style.color = "blue";
 
-            // Chamada à nova API de Login de Admin
             fetch("http://127.0.0.1:5000/api/login/admin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -26,16 +25,15 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(result => {
                 messageArea.textContent = result.body.message;
 
-                if (result.status === 200) { // Sucesso no login
+                if (result.status === 200) { 
                     messageArea.style.color = "green";
                     
-                    // Salvar o Token de ADMIN (diferente do token do cliente)
+                    // Salvar o Token de ADMIN 
                     localStorage.setItem('admin_token', result.body.token);
                     localStorage.setItem('admin_name', result.body.nome);
 
                     // Redirecionar para o Dashboard do Administrador
                     setTimeout(() => {
-                        // Vamos redirecionar para uma página que chamaremos de admin-dashboard.html
                         window.location.href = "/front_end/admin-dashboard.html"; 
                     }, 1000);
 

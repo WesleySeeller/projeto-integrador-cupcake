@@ -1,40 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Seleciona os elementos do formulário
     const cadastroForm = document.getElementById('cadastro-form');
-    const emailInput = document.getElementById('cadastro-email');
-    const senhaInput = document.getElementById('cadastro-senha');
-    const confirmarSenhaInput = document.getElementById('cadastro-confirmar-senha');
     const messageArea = document.getElementById('message-area');
 
-    // Adiciona o 'escutador' de evento para o envio do formulário
+    if (!cadastroForm) {
+        console.error("Formulário de cadastro não encontrado. Verifique o ID 'cadastro-form'.");
+        return;
+    }
+
     cadastroForm.addEventListener('submit', async (event) => {
-        // Impede o recarregamento padrão da página
         event.preventDefault(); 
 
-        const email = emailInput.value;
-        const senha = senhaInput.value;
-        const confirmarSenha = confirmarSenhaInput.value;
-
-        // --- 1. Validação no Front-End ---
+        const nomeInput = document.getElementById('cadastro-nome');
+        const nome = nomeInput ? nomeInput.value : '';
+        
+        const email = document.getElementById('cadastro-email').value;
+        const senha = document.getElementById('cadastro-senha').value;
+        const confirmarSenha = document.getElementById('cadastro-confirmar-senha').value;
+        
+        // Validação de senhas
         if (senha !== confirmarSenha) {
-            messageArea.textContent = 'As senhas não coincidem. Tente novamente.';
-            messageArea.style.color = 'red';
+            messageArea.textContent = 'Erro: As senhas não coincidem.';
+            messageArea.style.color = '#ef4444'; 
             return;
         }
         
-        messageArea.textContent = 'Registrando...';
-        messageArea.style.color = 'blue';
-
-        // --- 2. Preparar dados para o Back-End ---
         const dadosCadastro = {
+            nome: nome, 
             email: email,
-            senha: senha
+            senha: senha,
+            role: 'cliente' 
         };
 
+        messageArea.textContent = 'Registrando...';
+        messageArea.style.color = '#3b82f6'; 
+
         try {
-            // --- 3. Fazer a chamada (fetch) para a API ---
-            // APONTA PARA A NOVA ROTA /api/cadastro
             const response = await fetch('http://127.0.0.1:5000/api/cadastro', {
                 method: 'POST',
                 headers: {
@@ -45,26 +45,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
-            // --- 4. Tratar a Resposta ---
-            if (response.ok) { // Status 201 (Created)
-                messageArea.textContent = data.message + ' Você será redirecionado para o login.';
-                messageArea.style.color = 'green';
+            if (response.ok) {
+                messageArea.textContent = 'Cadastro de cliente realizado com sucesso! Redirecionando para o login...';
+                messageArea.style.color = '#22c55e'; 
                 
-                // Redireciona para o login após 2 segundos
                 setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
+                    window.location.href = 'login.html'; 
+                }, 1000);
                 
-            } else { // Status 400 (Bad Request) ou 409 (Conflict)
-                messageArea.textContent = `Erro: ${data.message}`;
-                messageArea.style.color = 'red';
+            } else {
+                messageArea.textContent = `Falha no Cadastro: ${data.message}`;
+                messageArea.style.color = '#ef4444'; 
             }
 
         } catch (error) {
-            // Erro de rede (ex: servidor Flask desligado)
             console.error('Falha na requisição de cadastro:', error);
-            messageArea.textContent = 'Erro de conexão. Verifique se o servidor está rodando.';
-            messageArea.style.color = 'red';
+            messageArea.textContent = 'Erro de conexão. Verifique se o servidor Flask está rodando.';
+            messageArea.style.color = '#ef4444'; 
         }
     });
 });
